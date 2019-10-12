@@ -42,7 +42,6 @@ const NewProductForm = (props) => {
   const { isSubmitting } = props
   return (
     <Fragment>
-      <h1 className='title'>Crear</h1>
       <Form>
         <Field
           name='name'
@@ -86,9 +85,9 @@ export default withFormik({
   handleSubmit: async (values, { setSubmitting }) => {
     setSubmitting(true)
     try {
-      const products = [{name: values.name, price: values.price, quantity: values.quantity}]
-      const provider = store.get('type')
-      const { data } = {data: 'success'} //await API.Products.create(products, provider)
+      const provider = store.get('provider_id')
+      const products = [{name: values.name, price: values.price, quantity: values.quantity, provider_id: provider}]
+      const { data } = await API.Products.create(products, provider)
       notify.success(data)
       notify.success('Productos creados con éxito.')
       setSubmitting(false)

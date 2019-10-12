@@ -24,10 +24,9 @@ class QuotationList extends Component {
 
   async getQuotations () {
     try {
-      const {token} = store.get('token')
-      const providerId = token.split(".")[2]
+      const providerId = store.get('provider_id')
       this.setState({ isLoading: true })
-      const { data } = {data:[{id: 1, username: "Martín", total: 123456, providerId: 12, products: [{id: 12, name: 'Queso', provider: 3, price: 43211, quantity: 7}]}]}//await API.Quotations.getAll(providerId)
+      const data = await API.Quotations.getAll(providerId)
       this.setState({ quotations: data })
     } catch (error) {
       notify.error('Hubo un error al momento de obtener los créditos.')

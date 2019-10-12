@@ -17,9 +17,6 @@ const ProductCard = ({ product }) => (
       <p className='card-header-title no-margin-bottom'>
         {product.quantity}
       </p>
-      <p className='card-header-title no-margin-bottom'>
-        {product.provider}
-      </p>
     </header>
   </div>
 )
@@ -37,18 +34,10 @@ const QuotationDetail = ({ quotation }) => (
       </div>
       <div className="message-body">
         <table className='table is-striped is-hoverable is-fullwidth'>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Cantidad</th>
-              <th>Proveedor</th>
-            </tr>
-          </thead>
           <tbody>
             {quotation.products.map(product => (
               <tr>
-                <td colSpan={4}>
+                <td colSpan={3}>
                   <ProductCard key={product.id} product={product} />
                 </td>
               </tr>

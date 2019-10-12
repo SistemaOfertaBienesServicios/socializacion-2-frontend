@@ -38,8 +38,10 @@ export default class CreateProductTable extends React.Component{
   getAllowedProducts = async () => {
     this.setState( { isLoading: true } )
     try {
-      const { data } = {data:[{id: 1, name: 'Agua', price: 123, provider: 'BBVA', quantity: 12}, {id: 2, name: 'Pollo', price: 321, provider: 'KFC', quantity: 100}]} //await API.Products.getAllowed()
+      const { data } = await API.Products.getAll()
+      console.log(data)
       const allowedProducts = data.map(product => product.name)
+      console.log(allowedProducts)
       this.setState({isLoading: false, allowedProducts: allowedProducts})
     } catch (error) {
       notify.error('Hubo un error al momento de obtener los productos permitidos.')
@@ -50,10 +52,11 @@ export default class CreateProductTable extends React.Component{
 
   sendNewProducts = async () => {
     const { products } = this.state
+    console.log(products)
     this.setState( { isLoading: true } )
     try {
-      const provider = store.get('type')
-      const { data } = {data: 'success'} //await API.Products.create(products, provider)
+      const provider = store.get('provider_id')
+      const { data } = await API.Products.create(products, provider)
       this.setState({ isLoading: false })
       notify.success(data)
       notify.success('Productos agregar con éxito.')
@@ -86,7 +89,7 @@ export default class CreateProductTable extends React.Component{
   }
 
   addRow = () => {
-    this.setState( (prevProps) => ({ products: [...prevProps.products, {id: prevProps.count, name: '', price: 0, quantity: 0}] , count: prevProps.count + 1 }))
+    this.setState( (prevProps) => ({ products: [...prevProps.products, {id: prevProps.count, name: prevProps.allowedProducts[0], price: 0, quantity: 0}] , count: prevProps.count + 1 }))
   }
 
   removeRow = (id) => {
@@ -103,7 +106,7 @@ export default class CreateProductTable extends React.Component{
     return (
       <div className='section margin-15'>
         <div className='flex-between'>
-          <h1 className='title'>Crear Productos</h1>
+          <h1 className='title'>Agregar Productos</h1>
           <button className='button is-primary' onClick={this.toggleModal}>
             <span>Crear</span>
           </button>
@@ -155,7 +158,7 @@ export default class CreateProductTable extends React.Component{
                   />
                 </td>
                 <td>
-                  <a 
+                  <button 
                     className={
                       clx(
                         'button is-danger',
@@ -168,14 +171,14 @@ export default class CreateProductTable extends React.Component{
                     onClick={() => this.removeRow(id)}
                   >
                     Eliminar
-                  </a>
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
         <div className='text-center'>
-          <a 
+          <button 
             style={{marginRight: '1em'}}
             className={
               clx(
@@ -189,8 +192,8 @@ export default class CreateProductTable extends React.Component{
             onClick={() => this.addRow()}
           >
             Agregar producto
-          </a>
-          <a 
+          </button>
+          <button 
             className={
               clx(
                 'button is-black',
@@ -203,7 +206,7 @@ export default class CreateProductTable extends React.Component{
             onClick={() => this.sendNewProducts()}
           >
             Enviar
-          </a>
+          </button>
         </div>
         <Modal
           isActive={isModalOpen}

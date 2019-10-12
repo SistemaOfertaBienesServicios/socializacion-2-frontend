@@ -19,7 +19,7 @@ const QuotationTable = ({ quotations, onSelect, selected }) =>
           </tr>
         </thead>
         <tbody>
-          {quotations.map(quotation => (
+          {quotations.map((quotation, i) => (
             <tr
               onClick={() => {
                 onSelect(quotation)
@@ -30,7 +30,7 @@ const QuotationTable = ({ quotations, onSelect, selected }) =>
               key={quotation.id}
               id={`${quotation.id}`}
             >
-              <td>{quotation.id}</td>
+              <td>{i}</td>
               <td>{quotation.providerId}</td>
               <td>{quotation.username}</td>
             </tr>

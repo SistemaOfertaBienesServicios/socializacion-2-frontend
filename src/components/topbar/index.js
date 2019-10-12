@@ -14,7 +14,7 @@ const User = ({ user }) => {
         <span>{user}</span>
       </span>
       <div className='navbar-dropdown'>
-        <Link to='/login' className='navbar-item' onClick={store.clearAll}>
+        <Link to='/login' className='navbar-item' onClick={() => store.clearAll()}>
           <span className='icon'>
             <i className='mdi mdi-logout' />
           </span>
@@ -28,11 +28,11 @@ const User = ({ user }) => {
 class Topbar extends Component {
   constructor (props) {
     super(props)
-    const { token } = store.get('token') ||  'Anonimous.Anonimous'
-    console.log(token)
+    const role  = store.get('role') ||  'Anonimous.Anonimous'
+    console.log(role)
     this.state = {
-      user: token.split(".")[0],
-      type: token.split(".")[1],
+      user: role.split(".")[0],
+      type: role.split(".")[1],
       isMenuOpen: false
     }
     this.routes = [

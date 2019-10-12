@@ -43,7 +43,7 @@ const loginForm = (props) => {
   return (
     <Fragment>
       <section className='hero is-fullheight is-white is-bold unselectable'>
-        <h1 className='title has-text-centered'>Socialización-2</h1>
+        <h1 className='title has-text-centered'>Sistema de Ofertas de Bienes y Servicios</h1>
         <div className='hero-body'>
           <div className='container has-text-centered'>
             <div className='columns'>
@@ -91,10 +91,16 @@ export default withFormik({
     setSubmitting(true)
     try {
       console.log(values)
-      const { data: token } = {data: {token: "Martín.Cliente"}}//await API.Login.SignIn({username: values.username, password: values.password})
-      store.set('token', token)
+      const { data: user } = await API.Login.SignIn({username: values.username, password: values.password})
+      console.log(user)
+      store.set('username', user.username)
+      store.set('role', user.role)
+      store.set('email', user.email)
+      store.set('password', user.password)
+      store.set('provider_id', user.id)
       navigate('/home')
     } catch (error) {
+      console.log(error)
       notify.error('Hubo un error al realizar login', { hideAfter: 5 })
     } finally {
       setSubmitting(false)

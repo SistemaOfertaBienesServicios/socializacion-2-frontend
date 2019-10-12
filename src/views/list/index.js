@@ -3,10 +3,13 @@ import API from 'api'
 import notify from 'components/notify'
 import Loading from 'components/loading'
 import clx from 'classnames'
+import store from 'store'
+import * as SockJS from 'sockjs-client';
+import Stomp from 'stompjs'
 
 /**
  * @typedef {import('api').Product & {selected: boolean, inputQuantity: number;}} Product
- * @typedef {{ products: Product[], isLoading: boolean }} State
+ * @typedef {{ products: Product[], isLoading: boolean, stompClientTemp: any, socketClientTemp: any }} State
  */
 export default class ProductTable extends React.Component{
   
@@ -15,10 +18,13 @@ export default class ProductTable extends React.Component{
    */
   state = {
     products: [],
-    isLoading: false
+    isLoading: false,
+    socketClientTemp: null,
+    stompClientTemp: null
   }
 
   componentDidMount () {
+    this.connect();
     this.getProducts()
   }
 
@@ -32,8 +38,8 @@ export default class ProductTable extends React.Component{
   getProducts = async () => {
     this.setState( { isLoading: true } )
     try {
-      const { data } = {data:[{id: 1, name: 'Agua', price: 123, provider: 'BBVA', quantity: 12}, {id: 2, name: 'Pollo', price: 321, provider: 'KFC', quantity: 100}]} //await API.Products.getAll()
-      this.setState({isLoading: false, products: data.map( (product) => Object.assign(product, {selected: false, inputQuantity: 0}))})
+      const { data } = await API.Products.getAll()
+      this.setState({isLoading: false, products: data.map( (product) => Object.assign(product, { selected: false, inputQuantity: 0}))})
     } catch (error) {
       notify.error('Hubo un error al momento de obtener los productos.')
     } finally {
@@ -41,17 +47,32 @@ export default class ProductTable extends React.Component{
     }
   }
 
+  connect = () => {
+    const socket = new SockJS('/sc-socializacion');
+    const stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/greetings', function (params) {
+            console.log(params)
+        });
+    });
+    this.setState({socketClientTemp: socket,  stompClientTemp: stompClient})
+  }
+
   sendProducts = async () => {
     const { products } = this.state
     this.setState( { isLoading: true } )
     try {
+      const username = store.get('username')
       const selectedProducts = products.filter( (product) => product.selected === true )
-      const productsToSend = selectedProducts.map((product) => Object.assign({}, {name: product.name,  quantity: product.inputQuantity}))
-      const { data } = {data: 'success'} //await API.Quotation.create(productsToSend)
+      const productsToSend = selectedProducts.map((product) => Object.assign({}, {id: product.id, name: product.name,  quantity: product.inputQuantity}))
+      const dataToSend = {products: productsToSend, username: username}
+      const { data } = await API.Quotations.create(dataToSend)
       this.setState({ isLoading: false })
       notify.success(data)
       notify.success('Cotización enviada, por favor revise su correo, para obtener la respuesta de su cotización.')
     } catch (error) {
+      console.log(error)
       notify.error('Hubo un error al momento de realizar la cotización.')
     } finally {
       this.setState({ isLoading: false })
@@ -90,12 +111,12 @@ export default class ProductTable extends React.Component{
             </tr>
           </thead>
           <tbody>
-            {products.map(({ id, name, quantity, provider, price }) => (
+            {products.map(({ id, name, quantity, provider, price }, i) => (
               <tr 
                 key={id}
                 className='cursor-default center-td'
               >
-                <td>{id}</td>
+                <td>{i}</td>
                 <td>{name}</td>
                 <td>
                   <input
@@ -118,7 +139,7 @@ export default class ProductTable extends React.Component{
           </tbody>
         </table>
         <div className='text-center'>
-          <a 
+          <button 
             className={
               clx(
                 'button is-black',
@@ -131,7 +152,7 @@ export default class ProductTable extends React.Component{
             onClick={() => this.sendProducts()}
           >
             Enviar
-          </a>
+          </button>
         </div>
       </div>
     )

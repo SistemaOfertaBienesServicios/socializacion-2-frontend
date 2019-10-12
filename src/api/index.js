@@ -10,7 +10,6 @@ import queryString from 'query-string'
 import _isEmpty from 'lodash/isEmpty'
 import { navigate } from '@reach/router'
 import notify from 'components/notify'
-
 /**
  * @typedef {{
  *  username: string;
@@ -46,6 +45,7 @@ const handleServerErrors = async response => {
       navigate('/login')
     }
     if (response.status >= 500) {
+      console.log(json)
       notify.error(
         `Error del servidor ${JSON.stringify(json.errors.detail, null, 2)}`
       )
@@ -64,13 +64,13 @@ const request = async (method, endpoint, queryArray, body) => {
       ? queryArray
       : `?${queryString.stringify(queryArray)}`
     : ''
-  const url = `${process.env.API_SERVER}/v1${endpoint}${query}`
+  
+  const url = `${process.env.REACT_APP_API_SERVER}${endpoint}${query}`
 
   const fetchParams = {
     method: method,
     headers: {
-      'content-type': 'application/json',
-      Authorization: store.get('token')
+      'content-type': 'application/json'
     }
   }
   if (body) Object.assign(fetchParams, { body: JSON.stringify(body) })
@@ -87,6 +87,7 @@ const request = async (method, endpoint, queryArray, body) => {
       })
     return response
   } catch (error) {
+    console.log(error)
     throw error
   }
 }
@@ -103,10 +104,6 @@ function Post (route, query, params, data) {
 function Put (route, query, params, data) {
   return request('PUT', route, query, data)
 }
-// HTTP DELETE
-function Delete (route, query, params, data) {
-  return request('DELETE', route, query, data)
-}
 
 // --------------------------------------------------------------------------
 // Endpoints
@@ -116,7 +113,7 @@ export class Login {
   /**
    * @param { Credentials } credentials
    * @returns { Promise<{
-    *    data: { token: string; }
+    *    data: { username: string, password: string, role: string, email: string, id: any }
     *  }>}
     */
   static SignIn (credentials) {
@@ -149,13 +146,13 @@ export class Products {
 export class Quotations {
 
   /**
-   * @param { ProductQuatation[] } productsQuatation
+   * @param { object } quatation
    * @returns { Promise<{
    *  data: string
    * }>}
    */
-  static create(productsQuatation){
-    return Post('/quotations', {}, '', productsQuatation)
+  static create(quatation){
+    return Post('/quote', {}, '', quatation)
   }
 
   /**

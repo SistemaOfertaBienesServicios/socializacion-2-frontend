@@ -9,8 +9,8 @@ import store from 'store'
  */
 class HomePage extends Component {
   render () {
-    const {token} = store.get('token')
-    const isProvider = token.split(".")[1] !== 'Cliente' 
+    const role = store.get('role')
+    const isProvider = role.split(".")[1] !== 'Cliente'
     return (
       <div className='section'>
         
@@ -20,10 +20,11 @@ class HomePage extends Component {
         </div>
 
         <div style={{ display: "flex",flexDirection: "row"}}>
+        {!isProvider && (
           <div style={{width: '15%', height: '15%', marginRight:'2rem', marginBottom: '2rem'}} className="card">
             <div className="card-image">
               <figure className="image is-4by3">
-                <img src="https://cdn2.iconfinder.com/data/icons/picons-essentials/71/new-512.png" alt="Placeholder image"/>
+                <img src="https://cdn2.iconfinder.com/data/icons/picons-essentials/71/new-512.png" alt=''/>
               </figure>
             </div>
             <div className="card-content">
@@ -34,17 +35,17 @@ class HomePage extends Component {
               </div>
 
               <div className="content">
-                <a onClick={() => navigate('/list')} className="button is-medium is-fullwidth is-success">Ir</a>
+                <button onClick={() => navigate('/list')} className="button is-medium is-fullwidth is-success" >Ir</button>
               </div>
             </div>
           </div>
-
+        )}
           {isProvider && (
             <Fragment>
               <div style={{width: '15%', height: '15%', marginRight:'2rem', marginBottom: '2rem'}} className="card">
                 <div className="card-image">
                   <figure className="image is-4by3">
-                    <img src="https://cdn1.iconfinder.com/data/icons/flat-web-browser/100/search-512.png" alt="Placeholder image"/>
+                    <img src="https://cdn1.iconfinder.com/data/icons/flat-web-browser/100/search-512.png" alt=''/>
                   </figure>
                 </div>
                 <div className="card-content">
@@ -55,7 +56,7 @@ class HomePage extends Component {
                   </div>
 
                   <div className="content">
-                    <a onClick={() => navigate('/quotations')} className="button is-medium is-fullwidth is-success">Ir</a>
+                    <button onClick={() => navigate('/quotations')} className="button is-medium is-fullwidth is-success" >Ir</button>
                   </div>
                 </div>
               </div>
@@ -73,7 +74,7 @@ class HomePage extends Component {
             <div style={{maxWidth: '15%', maxHeight: '15%'}} className="card">
               <div className="card-image">
                 <figure className="image is-4by3">
-                  <img src="https://cdn1.iconfinder.com/data/icons/streamline-content/60/cell-18-8-480.png" alt="Placeholder image"/>
+                  <img src="https://cdn1.iconfinder.com/data/icons/streamline-content/60/cell-18-8-480.png" alt=''/>
                 </figure>
               </div>
               <div className="card-content">
@@ -84,7 +85,7 @@ class HomePage extends Component {
                 </div>
 
                 <div className="content">
-                  <a onClick={() => navigate('/products')} className="button is-medium is-fullwidth is-success">Ir</a>
+                  <button onClick={() => navigate('/products')} className="button is-medium is-fullwidth is-success" >Ir</button>
                 </div>
               </div>
             </div>

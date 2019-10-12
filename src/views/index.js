@@ -17,13 +17,13 @@ const history = createHistory(window)
  */
 class App extends Component {
   componentDidMount () {
-    if (!store.get('token')) {
+    if (!store.get('role')) {
       navigate('/login')
       return
     }
 
     this.unsubscribeHistory = history.listen(() => {
-      if (!store.get('token')) {
+      if (!store.get('role')) {
         navigate('/login')
       }
     })
@@ -36,7 +36,7 @@ class App extends Component {
   }
 
   render () {
-    if (!store.get('token')) {
+    if (!store.get('role')) {
       return null
     }
 
