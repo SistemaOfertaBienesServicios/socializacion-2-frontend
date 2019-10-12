@@ -1,0 +1,37 @@
+#resuelve-logo {
+  display: block;
+  width: auto;
+  @include unselectable();
+  .logoCircleFill {
+    fill: currentColor
+  }
+  .logoLetterFill {
+    fill: currentColor
+  }
+  .textFill {
+    fill: currentColor
+  }
+
+  &.light {
+    .logoCircleFill {
+      fill: $color-secondary
+    }
+    .logoLetterFill {
+      fill: $color-primary;
+    }
+    .textFill {
+      fill: $light-grey;
+    }
+  }
+  &.dark {
+    .logoCircleFill {
+      fill: $color-secondary;
+    }
+    .logoLetterFill {
+      fill: $color-primary
+    }
+    .textFill {
+      fill: $color-secondary;
+    }
+  }
+}

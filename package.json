@@ -5,13 +5,43 @@
   "dependencies": {
     "react": "^16.10.1",
     "react-dom": "^16.10.1",
-    "react-scripts": "3.1.2"
+    "react-scripts": "3.1.2",
+    "axios": "0.18.0",
+    "classnames": "2.2.6",
+    "formik": "1.5.1",
+    "moment": "2.24.0",
+    "react-datepicker": "2.1.0",
+    "react-document-title": "2.0.3",
+    "react-tooltip": "3.9.2",
+    "store": "2.0.12",
+    "validator": "10.11.0",
+    "yup": "0.26.10",
+    "@reach/router": "1.2.1",
+    "lodash": "4.17.11",
+    "query-string": "6.2.0",
+    "cogo-toast": "1.0.4",
+    "node-sass": "4.12.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "react-scripts format"
+  },
+  "devDependencies": {
+    "@types/lodash": "4.14.121",
+    "@types/moment": "2.13.0",
+    "@types/node": "11.9.4",
+    "@types/reach__router": "1.2.1",
+    "@types/react": "16.8.7",
+    "@types/react-datepicker": "2.0.3",
+    "@types/react-dom": "16.8.2",
+    "@types/validator": "10.9.0",
+    "@types/yup": "0.26.9",
+    "prop-types": "15.7.2",
+    "react-testing-library": "5.9.0",
+    "typescript": "3.3.3"
   },
   "eslintConfig": {
     "extends": "react-app"

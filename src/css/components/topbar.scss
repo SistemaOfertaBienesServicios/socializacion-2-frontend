@@ -1,0 +1,10 @@
+$resuelveLogo-height: 2rem;
+
+#app-topbar {
+  z-index: 40;
+  #resuelve-logo {
+    display: inline-block;
+    height: 2.5rem;
+    padding: 0.25rem 0;
+  }
+}

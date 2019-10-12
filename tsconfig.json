@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "module": "esnext",
+    "allowSyntheticDefaultImports": true,
+    "jsx": "preserve",
+    "skipLibCheck": true,
+    "checkJs": true,
+    "allowJs": true,
+    "noEmit": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "noImplicitAny": false,
+    "alwaysStrict": true,
+    "strict": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./src",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "isolatedModules": true
+  },
+  "exclude": [
+    "node_modules",
+    "build",
+    "alias.js",
+    "*/serviceWorker.js"
+  ],
+  "include": [
+    "src"
+  ]
+}
