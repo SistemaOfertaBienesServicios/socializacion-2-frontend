@@ -40,7 +40,6 @@
     "@types/validator": "10.9.0",
     "@types/yup": "0.26.9",
     "prop-types": "15.7.2",
-    "react-testing-library": "5.9.0",
     "typescript": "3.3.3"
   },
   "eslintConfig": {
